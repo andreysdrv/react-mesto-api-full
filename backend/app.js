@@ -12,7 +12,7 @@ const { login, createUser } = require('./controllers/users');
 const NotFound = require('./errors/NotFound');
 const { loginValidation, userValidation } = require('./middlewares/validate');
 
-const { PORT = 3000 } = process.env;
+const { PORT = 3001 } = process.env;
 
 const app = express();
 
