@@ -32,8 +32,8 @@ class Api {
       method: 'PATCH',
       headers: this._headers,
       body: JSON.stringify({
-        name: userData.userName,
-        about: userData.userAbout
+        name: userData.name,
+        about: userData.about
       })
     })
     .then(this._checkResponse)
@@ -51,17 +51,9 @@ class Api {
     .then(this._checkResponse)
   }
 
-  like(id) {
+  changeLikeCardStatus(id, isLiked) {
     return fetch(this._url + `/cards/likes/${id}`, {
-      method: 'PUT',
-      headers: this._headers
-    })
-    .then(this._checkResponse)
-  }
-
-  dislike(id) {
-    return fetch(this._url + `/cards/likes/${id}`, {
-      method: 'DELETE',
+      method: `${isLiked ? 'PUT' : 'DELETE'}`,
       headers: this._headers
     })
     .then(this._checkResponse)
@@ -80,7 +72,7 @@ class Api {
       method: 'PATCH',
       headers: this._headers,
       body: JSON.stringify({
-        avatar: data.userAvatar,
+        avatar: data.avatar,
       })
     })
     .then(this._checkResponse)
@@ -92,7 +84,7 @@ class Api {
 }
 
 const api = new Api({
-  url: 'https://api.mesto.sidorov.nomoredomains.monster',
+  url: 'https://mesto.nomoreparties.co/v1/cohort-23',
   headers: {
     authorization: '1a04582c-c338-4c76-b689-0417388dddf2',
     'Content-Type': 'application/json'
