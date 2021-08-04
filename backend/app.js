@@ -18,8 +18,8 @@ const app = express();
 
 // Массив доменов, с которых разрешены кросс-доменные запросы
 const allowedCors = [
-  'https://mesto.frontend.sidorov.nomoredomains.monster/',
-  'https://api.mesto.sidorov.nomoredomains.monster/',
+  'https://mesto.frontend.sidorov.nomoredomains.monster',
+  'https://api.mesto.sidorov.nomoredomains.monster',
   'localhost:3000',
 ];
 
