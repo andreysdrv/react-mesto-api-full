@@ -33,7 +33,7 @@ app.use((req, res, next) => {
   // проверяем, что источник запроса есть среди разрешённых
   if (allowedCors.includes(origin)) {
     // устанавливаем заголовок, который разрешает браузеру запросы из любого источника
-    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Origin', origin);
   }
   // Если это предварительный запрос, добавляем нужные заголовки
   if (method === 'OPTIONS') {
@@ -42,7 +42,8 @@ app.use((req, res, next) => {
     // разрешаем кросс-доменные запросы с этими заголовками
     res.header('Access-Control-Allow-Headers', requestHeaders);
     // вернет ответ 200 с пустым телом после preflight-запроса
-    return res.status(200).send();
+    res.status(200).send();
+    return;
   }
 
   next();
