@@ -1,6 +1,6 @@
-import React from 'react'
-// import PopupWithForm from './PopupWithForm'
-import Form from './Form'
+import React, { useEffect } from 'react'
+import PopupWithForm from './PopupWithForm'
+// import Form from './Form'
 
 function EditAvatarPopup({ isOpen, onUpdateAvatar, onClose }) {
   const avatarRef = React.useRef('')
@@ -10,17 +10,21 @@ function EditAvatarPopup({ isOpen, onUpdateAvatar, onClose }) {
     onUpdateAvatar({
       avatar: avatarRef.current.value
     })
-    avatarRef.current.value = ''
   }
 
+  useEffect(() => {
+    avatarRef.current.value = ''
+  }, [isOpen])
+
   return (
-    <Form
-      formName='profile-edit'
+    <PopupWithForm
+      name='profile-edit'
       onSubmit={handleSubmit}
       title='Редактировать профиль'
       buttonText='Сохранить'
       isModal={true}
       isOpen={isOpen}
+      onClose={onClose}
     >
       <input
         name="userAvatar"
@@ -32,13 +36,7 @@ function EditAvatarPopup({ isOpen, onUpdateAvatar, onClose }) {
         ref={avatarRef}
       />
       <span className="popup__input-error userAvatar-input-error"></span>
-      <button
-        type="button"
-        className="popup__close-button"
-        onClick={onClose}
-      >
-      </button>
-    </Form>
+    </PopupWithForm>
   )
 }
 

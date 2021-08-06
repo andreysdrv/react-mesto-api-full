@@ -1,13 +1,12 @@
-export const BASE_URL = 'https://api.mesto.sidorov.nomoredomains.monster'
+export const BASE_URL = 'https://auth.nomoreparties.co'
 
 const handleResponse = response => response.ok ? response.json() : Promise.reject(`Ошибка ${response.status}`)
 
 export const register = (password, email) => {
   return fetch(`${BASE_URL}/signup`, {
     method: 'POST',
-    credentials: 'include',
     headers: {
-      "Content-Type": "application/json",
+      "Content-Type": "application/json"
     },
     body: JSON.stringify({password, email})
   })
@@ -17,9 +16,8 @@ export const register = (password, email) => {
 export const authorize = (password, email) => {
   return fetch(`${BASE_URL}/signin`, {
     method: 'POST',
-    credentials: 'include',
     headers: {
-      "Content-Type": "application/json",
+      "Content-Type": "application/json"
     },
     body: JSON.stringify({password, email})
   })
@@ -35,11 +33,11 @@ export const authorize = (password, email) => {
 export const getContent = token => {
   return fetch(`${BASE_URL}/users/me`, {
     method: 'GET',
-    credentials: 'include',
     headers: {
       "Content-Type": "application/json",
       "Authorization" : `Bearer ${token}`
     }
   })
   .then(handleResponse)
+  // .then(res => console.log(res))
 }

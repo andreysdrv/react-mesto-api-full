@@ -14,11 +14,17 @@ import ProtectedRoute from './ProtectedRoute';
 import Login from './Login'
 import Register from './Rigister'
 import * as auth from '../utils/auth'
+import InfoTooltip from './InfoTooltip'
+import success from '../images/success.svg'
+import unSuccess from '../images/unsuccess.svg'
+
 
 function App() {
   const history = useHistory()
 
   const [loggedIn, setLoggedIn] = useState(false)
+  const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false)
+  const [message, setMessage] = useState({ imgPath: '', text: '' })
   
   const [email, setEmail] = useState('')
 
@@ -46,6 +52,7 @@ function App() {
     setEditProfilePopupOpen(false)
     setAddPlacePopupOpen(false)
     setSelectedCard(null)
+    setIsInfoTooltipOpen(false)
   }
 
   function onCardClick(card) {
@@ -82,7 +89,7 @@ function App() {
   function handleCardDelete(card) {
     api.delete(card._id)
       .then(() => {
-        setCards(cards.filter((item) => item !== card))
+        setCards(cards => cards.filter((item) => item !== card))
       })
       .catch((err) => console.log(err))
   }
@@ -114,7 +121,7 @@ function App() {
 
   useEffect(() => {
     tokenCheck()
-  })
+  }, [])
 
   function tokenCheck() {
     const jwt = localStorage.getItem('jwt')
@@ -125,9 +132,10 @@ function App() {
           if(res) {
             setLoggedIn(true)
             setEmail(res.data.email)
+            history.push('/')
           }
         })
-        history.push('/')
+        .catch((err) => console.log(err))
     }
   }
 
@@ -135,9 +143,10 @@ function App() {
     auth.register(password, email)
       .then((result) => {
         setEmail(result.data.email)
-        alert('Вы успешно зарегистрировались :)')
+        setMessage({ imgPath: success, text: 'Вы успешно зарегистрировались!' })
       })
-      .catch((err) => alert(err, 'Что-то пошло не так :('))
+      .catch(() => setMessage({ imgPath: unSuccess, text: 'Что-то пошло не так! Попробуйте ещё раз.' }))
+      .finally(() => setIsInfoTooltipOpen(true))
   }
 
   function handleAuth(password, email) {
@@ -147,6 +156,7 @@ function App() {
           .then((res) => {
             setEmail(res.data.email)
             setLoggedIn(true)
+            history.push('/')
           })
       })
       .catch((err) => console.log(err))
@@ -155,7 +165,6 @@ function App() {
   function onSignOut() {
     localStorage.removeItem('jwt')
     setLoggedIn(false)
-    history.push('/sign-up')
   }
 
   return (
@@ -183,6 +192,7 @@ function App() {
             <Register
               isOpen={isEditProfilePopupOpen}
               onRegister={handleRegistration}
+              isInfoTooltipOpen={isInfoTooltipOpen}
             />
           </Route>
           <Route path='/sign-up'>
@@ -193,6 +203,13 @@ function App() {
           </Route>
         </Switch>
         <Footer />
+        <InfoTooltip
+          name='tooltip'
+          isOpen={isInfoTooltipOpen}
+          onClose={closeAllPopups}
+          title={message.text}
+          imgPath={message.imgPath}
+        />
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
