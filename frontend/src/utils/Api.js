@@ -13,6 +13,7 @@ class Api {
 
   getUserInfo() {
     return fetch(this._url + '/users/me', {
+      credentials: 'include',
       method: 'GET',
       headers: this._headers
     })
@@ -21,6 +22,7 @@ class Api {
 
   getInitialCards() {
     return fetch(this._url + '/cards', {
+      credentials: 'include',
       method: 'GET',
       headers: this._headers
     })
@@ -29,6 +31,7 @@ class Api {
 
   setUserInfoApi(userData) {
     return fetch(this._url + '/users/me', {
+      credentials: 'include',
       method: 'PATCH',
       headers: this._headers,
       body: JSON.stringify({
@@ -41,6 +44,7 @@ class Api {
 
   addUserCard(data) {
     return fetch(this._url + '/cards', {
+      credentials: 'include',
       method: 'POST',
       headers: this._headers,
       body: JSON.stringify({
@@ -53,6 +57,7 @@ class Api {
 
   changeLikeCardStatus(id, isLiked) {
     return fetch(this._url + `/cards/likes/${id}`, {
+      credentials: 'include',
       method: `${isLiked ? 'PUT' : 'DELETE'}`,
       headers: this._headers
     })
@@ -61,6 +66,7 @@ class Api {
 
   delete(id) {
     return fetch(this._url + `/cards/${id}`, {
+      credentials: 'include',
       method: 'DELETE',
       headers: this._headers
     })
@@ -69,6 +75,7 @@ class Api {
 
   handleUserAvatar(data) {
     return fetch(this._url + `/users/me/avatar`, {
+      credentials: 'include',
       method: 'PATCH',
       headers: this._headers,
       body: JSON.stringify({
@@ -84,7 +91,8 @@ class Api {
 }
 
 const api = new Api({
-  url: 'https://mesto.nomoreparties.co/v1/cohort-23',
+  url: 'https://api.mesto.sidorov.nomoredomains.monster',
+  credentials: 'include',
   headers: {
     authorization: '1a04582c-c338-4c76-b689-0417388dddf2',
     'Content-Type': 'application/json'

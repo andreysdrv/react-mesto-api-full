@@ -1,9 +1,21 @@
-export const BASE_URL = 'https://auth.nomoreparties.co'
+export const BASE_URL = 'https://api.mesto.sidorov.nomoredomains.monster'
 
 const handleResponse = response => response.ok ? response.json() : Promise.reject(`Ошибка ${response.status}`)
 
+export const logout = () => {
+  return fetch(`${BASE_URL}/logout`, {
+    credentials: 'include',
+    method: 'POST',
+    headers: {
+      "Content-Type": "application/json"
+    }
+  })
+    .then(handleResponse)
+}
+
 export const register = (password, email) => {
   return fetch(`${BASE_URL}/signup`, {
+    credentials: 'include',
     method: 'POST',
     headers: {
       "Content-Type": "application/json"
@@ -15,6 +27,7 @@ export const register = (password, email) => {
 
 export const authorize = (password, email) => {
   return fetch(`${BASE_URL}/signin`, {
+    credentials: 'include',
     method: 'POST',
     headers: {
       "Content-Type": "application/json"
@@ -23,6 +36,7 @@ export const authorize = (password, email) => {
   })
   .then(handleResponse)
   .then((data) => {
+    console.log(data)
     if (data.token) {
       localStorage.setItem('jwt', data.token)
       return data.token
@@ -32,6 +46,7 @@ export const authorize = (password, email) => {
 
 export const getContent = token => {
   return fetch(`${BASE_URL}/users/me`, {
+    credentials: 'include',
     method: 'GET',
     headers: {
       "Content-Type": "application/json",
@@ -39,5 +54,4 @@ export const getContent = token => {
     }
   })
   .then(handleResponse)
-  // .then(res => console.log(res))
 }

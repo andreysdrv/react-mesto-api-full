@@ -124,19 +124,15 @@ function App() {
   }, [])
 
   function tokenCheck() {
-    const jwt = localStorage.getItem('jwt')
-
-    if(jwt) {
-      auth.getContent(jwt)
-        .then((res) => {
-          if(res) {
-            setLoggedIn(true)
-            setEmail(res.data.email)
-            history.push('/')
-          }
-        })
-        .catch((err) => console.log(err))
-    }
+    auth.getContent()
+      .then((res) => {
+        if(res) {
+          setLoggedIn(true)
+          setEmail(res.currentUser.email)
+          history.push('/')
+        }
+      })
+      .catch((err) => console.log(err))
   }
 
   function handleRegistration(password, email) {
@@ -154,7 +150,7 @@ function App() {
       .then((token) => {
         auth.getContent(token)
           .then((res) => {
-            setEmail(res.data.email)
+            setEmail(res.currentUser.email)
             setLoggedIn(true)
             history.push('/')
           })
@@ -163,7 +159,7 @@ function App() {
   }
 
   function onSignOut() {
-    localStorage.removeItem('jwt')
+    auth.logout()
     setLoggedIn(false)
   }
 
