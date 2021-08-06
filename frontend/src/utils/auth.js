@@ -10,7 +10,6 @@ export const logout = () => {
       "Content-Type": "application/json"
     }
   })
-    .then(handleResponse)
 }
 
 export const register = (password, email) => {

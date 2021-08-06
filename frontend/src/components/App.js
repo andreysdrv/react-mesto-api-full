@@ -161,6 +161,7 @@ function App() {
   function onSignOut() {
     auth.logout()
     setLoggedIn(false)
+    history.push('/sign-in')
   }
 
   return (
