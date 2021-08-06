@@ -93,6 +93,10 @@ const login = (req, res, next) => {
     .catch(next);
 };
 
+const logout = (req, res) => {
+  res.clearCookie('jwt').send();
+};
+
 const getCurrentUser = (req, res, next) => {
   User.findById(req.user._id)
     .orFail()
@@ -111,4 +115,5 @@ module.exports = {
   updateAvatar,
   login,
   getCurrentUser,
+  logout,
 };

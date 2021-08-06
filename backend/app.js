@@ -8,7 +8,7 @@ const userRouter = require('./routes/users');
 const cardsRouter = require('./routes/cards');
 const auth = require('./middlewares/auth');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
-const { login, createUser } = require('./controllers/users');
+const { login, logout, createUser } = require('./controllers/users');
 const NotFound = require('./errors/NotFound');
 const { loginValidation, userValidation } = require('./middlewares/validate');
 
@@ -53,6 +53,7 @@ app.use(requestLogger); // подключаем логгер запросов
 
 app.post('/signin', loginValidation, login);
 app.post('/signup', userValidation, createUser);
+app.post('/logout', logout);
 
 app.use('/', auth, userRouter);
 app.use('/', auth, cardsRouter);
