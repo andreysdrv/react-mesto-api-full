@@ -27,7 +27,7 @@ export default function AuthPage (
           </button>
           {
             formName === 'register' &&
-            <Link className='auth-page__link' to='/sign-up'>Уже зарегистрированы? Войти</Link>
+            <Link className='auth-page__link' to='/sign-in'>Уже зарегистрированы? Войти</Link>
           }
         </form>
     </div>

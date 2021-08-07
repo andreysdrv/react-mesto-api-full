@@ -192,14 +192,14 @@ function App() {
             handleCardDelete={handleCardDelete}
             cards={cards}
           />
-          <Route path='/sign-in'>
+          <Route path='/sign-up'>
             <Register
               isOpen={isEditProfilePopupOpen}
               onRegister={handleRegistration}
               isInfoTooltipOpen={isInfoTooltipOpen}
             />
           </Route>
-          <Route path='/sign-up'>
+          <Route path='/sign-in'>
             <Login
               isOpen={isEditProfilePopupOpen}
               onAuth={handleAuth}
