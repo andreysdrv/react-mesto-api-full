@@ -61,8 +61,8 @@ function App() {
 
   function onUpdateUser(userData) {
     api.setUserInfoApi(userData)
-      .then((data) => {
-        setCurrentUser(data)
+      .then((user) => {
+        setCurrentUser(user.data)
         closeAllPopups()
       })
       .catch((err) => console.log(err))
@@ -70,18 +70,18 @@ function App() {
 
   function onUpdateAvatar(userData) {
     api.handleUserAvatar(userData)
-      .then((data) => {
-        setCurrentUser(data)
+      .then((user) => {
+        setCurrentUser(user.data)
         closeAllPopups()
       })
       .catch((err) => console.log(err))
   }
 
   function handleCardLike(card) {
-    const isLiked = card.likes.some(i => i._id === currentUser._id);
+    const isLiked = card.likes.some(id => id === currentUser._id);
     api.changeLikeCardStatus(card._id, !isLiked)
       .then((newCard) => {
-        setCards((state) => state.map((c) => c._id === card._id ? newCard : c))
+        setCards((state) => state.map((c) => c._id === card._id ? newCard.data : c))
       })
       .catch((err) => console.log(err))
   }
@@ -97,27 +97,31 @@ function App() {
   function handleAddPlaceSubmit(cardData) {
     api.addUserCard(cardData)
       .then((newCard) => {
-        setCards([newCard, ...cards])
+        setCards([newCard.data, ...cards])
         closeAllPopups()
       })
       .catch((err) => console.log(err))
   }
 
   useEffect(() => {
-    api.getInitialCards()
-      .then((data) => {
-        setCards(data)
-      })
-      .catch((err) => console.log(err))
-  }, [])
+    if (loggedIn) {
+      api.getInitialCards()
+        .then((cardsObj) => {
+          setCards(cardsObj.data.reverse())
+        })
+        .catch((err) => console.log(err))
+    }
+  }, [loggedIn])
 
   useEffect(() => {
-    api.getUserInfo()
-      .then((data) => {
-        setCurrentUser(data)
-      })
-      .catch((err) => console.log(err))
-  }, [])
+    if (loggedIn) {
+      api.getUserInfo()
+        .then((user) => {
+          setCurrentUser(user.currentUser)
+        })
+        .catch((err) => console.log(err))
+    }
+  }, [loggedIn])
 
   useEffect(() => {
     tokenCheck()
@@ -161,6 +165,8 @@ function App() {
   function onSignOut() {
     auth.logout()
     setLoggedIn(false)
+    setCards([])
+    setCurrentUser({})
     history.push('/sign-in')
   }
 

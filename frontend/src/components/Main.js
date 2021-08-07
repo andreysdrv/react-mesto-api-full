@@ -4,7 +4,6 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext'
 
 function Main({onEditAvatar, onEditProfile, onAddPlace, onCardClick, handleCardLike, handleCardDelete, cards}) {
   const currentUser = React.useContext(CurrentUserContext)
-  console.log(cards)
 
   return (
     <main className="main">
@@ -44,7 +43,7 @@ function Main({onEditAvatar, onEditProfile, onAddPlace, onCardClick, handleCardL
       <section className="elements-container">
         <ul className="elements">
           {
-            cards.data.map((card) => (<Card key={card._id}
+            cards.map((card) => (<Card key={card._id}
             card={card}
             onCardClick={onCardClick}
             onCardLike={handleCardLike}

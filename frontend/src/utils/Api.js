@@ -56,7 +56,7 @@ class Api {
   }
 
   changeLikeCardStatus(id, isLiked) {
-    return fetch(this._url + `/cards/likes/${id}`, {
+    return fetch(this._url + `/cards/${id}/likes`, {
       credentials: 'include',
       method: `${isLiked ? 'PUT' : 'DELETE'}`,
       headers: this._headers
@@ -94,7 +94,6 @@ const api = new Api({
   url: 'https://api.mesto.sidorov.nomoredomains.monster',
   credentials: 'include',
   headers: {
-    authorization: '1a04582c-c338-4c76-b689-0417388dddf2',
     'Content-Type': 'application/json'
   }
 })
