@@ -1,11 +1,11 @@
 const { celebrate, Joi } = require('celebrate');
-const { isUrl } = require('validator');
+const { isURL } = require('validator');
 
 // // eslint-disable-next-line no-useless-escape
 // const linkRegExp = /(http:\/\/|https:\/\/)(www)*[a-z0-9\-\.\_\~\:\/\?\#\[\]\@\!\$\&\'\(\)\*\+\,\;\=]+#*/;
 
 const customValidate = (url) => {
-  const result = isUrl(url);
+  const result = isURL(url);
   if (result) {
     return url;
   }
