@@ -1,15 +1,15 @@
 const { celebrate, Joi } = require('celebrate');
-const { isURL } = require('validator');
+const validator = require('validator');
 
 // // eslint-disable-next-line no-useless-escape
 // const linkRegExp = /(http:\/\/|https:\/\/)(www)*[a-z0-9\-\.\_\~\:\/\?\#\[\]\@\!\$\&\'\(\)\*\+\,\;\=]+#*/;
 
 const customValidate = (url) => {
-  const result = isURL(url);
-  if (result) {
-    return url;
+  const result = validator.isURL(url);
+  if (!result) {
+    throw new Error('URL is not valid');
   }
-  throw new Error('URL is not valid');
+  return url;
 };
 
 const idValidation = celebrate({
@@ -51,7 +51,7 @@ const userAboutValidation = celebrate({
 
 const avatarValidation = celebrate({
   body: Joi.object().keys({
-    avatar: Joi.string().required().custom(customValidate),
+    avatar: Joi.string().custom(customValidate).required(),
   }),
 });
 
