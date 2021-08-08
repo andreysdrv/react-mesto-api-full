@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
 const { errors } = require('celebrate');
 const userRouter = require('./routes/users');
 const cardsRouter = require('./routes/cards');
@@ -17,7 +18,6 @@ const { PORT = 3001 } = process.env;
 
 const app = express();
 
-// Массив доменов, с которых разрешены кросс-доменные запросы
 const allowedCors = [
   'https://mesto.frontend.sidorov.nomoredomains.monster',
   'https://api.mesto.sidorov.nomoredomains.monster',
@@ -49,9 +49,17 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(helmet());
 
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+  message: 'Too many requests, please try again later.',
+});
+
+app.use(limiter);
+
 app.use(cookieParser());
 
-app.use(requestLogger); // подключаем логгер запросов
+app.use(requestLogger);
 
 app.get('/crash-test', () => {
   setTimeout(() => {
@@ -76,7 +84,7 @@ mongoose.connect('mongodb://localhost:27017/mestodbnew', {
   useUnifiedTopology: true,
 });
 
-app.use(errorLogger); // подключаем логгер ошибок
+app.use(errorLogger);
 
 app.use(errors());
 
