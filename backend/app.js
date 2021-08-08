@@ -13,6 +13,7 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { login, logout, createUser } = require('./controllers/users');
 const NotFound = require('./errors/NotFound');
 const { loginValidation, userValidation } = require('./middlewares/validate');
+const { errorHandler } = require('./helpers/errorHandler');
 
 const { PORT = 3001 } = process.env;
 
@@ -88,17 +89,6 @@ app.use(errorLogger);
 
 app.use(errors());
 
-app.use((err, req, res, next) => {
-  const { statusCode = 500, message } = err;
-
-  res
-    .status(statusCode)
-    .send({
-      message: statusCode === 500
-        ? 'На сервере произошла ошибка'
-        : message,
-    });
-  next();
-});
+app.use(errorHandler);
 
 app.listen(PORT);
