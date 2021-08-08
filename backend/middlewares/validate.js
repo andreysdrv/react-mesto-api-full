@@ -1,7 +1,16 @@
 const { celebrate, Joi } = require('celebrate');
+const { isUrl } = require('validator');
 
-// eslint-disable-next-line no-useless-escape
-const linkRegExp = /(http:\/\/|https:\/\/)(www)*[a-z0-9\-\.\_\~\:\/\?\#\[\]\@\!\$\&\'\(\)\*\+\,\;\=]+#*/;
+// // eslint-disable-next-line no-useless-escape
+// const linkRegExp = /(http:\/\/|https:\/\/)(www)*[a-z0-9\-\.\_\~\:\/\?\#\[\]\@\!\$\&\'\(\)\*\+\,\;\=]+#*/;
+
+const customValidate = (url) => {
+  const result = isUrl(url);
+  if (result) {
+    return url;
+  }
+  throw new Error('URL is not valid');
+};
 
 const idValidation = celebrate({
   params: Joi.object().keys({
@@ -20,7 +29,7 @@ const userValidation = celebrate({
   body: Joi.object().keys({
     name: Joi.string().min(2).max(30),
     about: Joi.string().min(2).max(20),
-    avatar: Joi.string().pattern(linkRegExp),
+    avatar: Joi.string().custom(customValidate),
     email: Joi.string().required().email(),
     password: Joi.string().required(),
   }),
@@ -29,7 +38,7 @@ const userValidation = celebrate({
 const cardValidation = celebrate({
   body: Joi.object().keys({
     name: Joi.string().required().min(2).max(30),
-    link: Joi.string().required().pattern(linkRegExp),
+    link: Joi.string().required().custom(customValidate),
   }),
 });
 
@@ -42,12 +51,12 @@ const userAboutValidation = celebrate({
 
 const avatarValidation = celebrate({
   body: Joi.object().keys({
-    avatar: Joi.string().required().pattern(linkRegExp),
+    avatar: Joi.string().required().custom(customValidate),
   }),
 });
 
 module.exports = {
-  linkRegExp,
+  // linkRegExp,
   userValidation,
   cardValidation,
   userAboutValidation,
