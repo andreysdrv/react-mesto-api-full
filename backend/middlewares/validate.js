@@ -1,8 +1,8 @@
 const { celebrate, Joi } = require('celebrate');
 const validator = require('validator');
 
-// // eslint-disable-next-line no-useless-escape
-// const linkRegExp = /(http:\/\/|https:\/\/)(www)*[a-z0-9\-\.\_\~\:\/\?\#\[\]\@\!\$\&\'\(\)\*\+\,\;\=]+#*/;
+// eslint-disable-next-line no-useless-escape
+const linkRegExp = /(http:\/\/|https:\/\/)(www)*[a-z0-9\-\.\_\~\:\/\?\#\[\]\@\!\$\&\'\(\)\*\+\,\;\=]+#*/;
 
 const customValidate = (url) => {
   const result = validator.isURL(url);
@@ -56,7 +56,7 @@ const avatarValidation = celebrate({
 });
 
 module.exports = {
-  // linkRegExp,
+  linkRegExp,
   userValidation,
   cardValidation,
   userAboutValidation,
