@@ -1,5 +1,7 @@
 const { Schema, model } = require('mongoose');
-const { linkRegExp } = require('../middlewares/validate');
+
+// eslint-disable-next-line no-useless-escape
+const linkRegExp = /(http:\/\/|https:\/\/)(www)*[a-z0-9\-\.\_\~\:\/\?\#\[\]\@\!\$\&\'\(\)\*\+\,\;\=]+#*/;
 
 const cardSchema = new Schema({
   name: {

@@ -1,8 +1,10 @@
 const bcrypt = require('bcrypt');
 const { Schema, model } = require('mongoose');
 const { isEmail } = require('validator');
-const { linkRegExp } = require('../middlewares/validate');
 const Auth = require('../errors/Auth');
+
+// eslint-disable-next-line no-useless-escape
+const linkRegExp = /(http:\/\/|https:\/\/)(www)*[a-z0-9\-\.\_\~\:\/\?\#\[\]\@\!\$\&\'\(\)\*\+\,\;\=]+#*/;
 
 const userSchema = new Schema({
   name: {
