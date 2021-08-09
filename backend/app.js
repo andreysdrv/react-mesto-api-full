@@ -50,6 +50,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(helmet());
 
+app.use(cookieParser());
+
+app.use(requestLogger);
+
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 100,
@@ -57,10 +61,6 @@ const limiter = rateLimit({
 });
 
 app.use(limiter);
-
-app.use(cookieParser());
-
-app.use(requestLogger);
 
 app.get('/crash-test', () => {
   setTimeout(() => {
